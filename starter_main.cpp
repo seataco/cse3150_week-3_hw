@@ -70,7 +70,7 @@ int main(int argc, char* argv[]) {
                 char* name = new char[MAX_NAME];
                 double gpa;
                 std::cout << "Enter name: ";
-                std::cin.ignore();  // Clear newline from previous input
+                std::cin.ignore();  
                 std::cin.getline(name, MAX_NAME);
                 std::cout << "Enter GPA: ";
                 std::cin >> gpa;
