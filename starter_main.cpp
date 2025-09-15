@@ -66,10 +66,12 @@ int main(int argc, char* argv[]) {
         switch (choice) {
             case 1: {
                 // TODO: implement menu logic
-                char* name;
+                const int MAX_NAME = 100;
+                char* name = new char[MAX_NAME];
                 double gpa;
                 std::cout << "Enter name: ";
-                std::cin >> name;
+                std::cin.ignore();  // Clear newline from previous input
+                std::cin.getline(name, MAX_NAME);
                 std::cout << "Enter GPA: ";
                 std::cin >> gpa;
                 try {
@@ -77,6 +79,7 @@ int main(int argc, char* argv[]) {
                 }
                 catch (const std::string s){
                     cout << s << endl;
+                    delete[] name;  // Only delete if addStudent failed
                 }
                 break;
             }
@@ -85,7 +88,7 @@ int main(int argc, char* argv[]) {
                 int index;
                 std::cout << "Enter index: ";
                 std::cin >> index;
-                if (index > 0 && index < size){
+                if (index >= 0 && index < size){
                     try {
                         double newGPA;
                         std::cout << "Enter new GPA: ";
@@ -104,9 +107,6 @@ int main(int argc, char* argv[]) {
             case 3: {
                 // TODO: implement menu logic
                 //TODO Make sure throw is caught
-                if (size == 0){
-                    throw std::string("No students");
-                }
                 for (int i = 0; i < size; i++){
                     printStudent(names[i], gpas[i]);
                 }
@@ -116,7 +116,8 @@ int main(int argc, char* argv[]) {
                 // TODO: implement menu logic
                 try {
                     double avg = averageGPA(gpas, size);
-                    cout << "Average GPA: " << avg << endl;
+                    int avgInt = static_cast<int>(avg);
+                    cout << "Average GPA: " << avgInt << endl;
                 }
                 catch (const std::string s){
                     cout << s << endl;
@@ -134,6 +135,9 @@ int main(int argc, char* argv[]) {
     } while (choice != 5);
 
     // TODO: free memory
+    for (int i = 0; i < size; i++) {
+        delete[] names[i];
+    }
     delete[] names;
     delete[] gpas;
 
